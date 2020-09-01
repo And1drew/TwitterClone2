@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TwitterClone | HomePage</title>
+</head>
+<body>
+    <h1>Welcome to Twitter {{request.user.displayname}}</h1>
+    <span>make a new tweet <a href="/tweet/">here</a></span>
+    <ul>
+        {% for tweet in tweets %}
+        <li style="border: 2px solid black; width: 22%;">
+            {{tweet.text}}
+            <br>
+            <p>posted by: {{tweet.author}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    <span>
+        Logout <a href="/logout/">here</a>
+    </span>
+</body>
+</html>
