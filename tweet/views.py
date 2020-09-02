@@ -20,3 +20,9 @@ def new_tweet(request):
             return HttpResponseRedirect('/')
     form = tweet_form
     return render(request, 'tweet_form.html', {'form': form})
+
+
+@login_required
+def tweet_details(request, tweet_id):
+    tweet = tweet_model.objects.get(id=tweet_id)
+    return render(request, 'tweet_details.html', {'tweet':tweet})

@@ -24,18 +24,22 @@ def signup_view(request):
     return render(request, 'signup_form.html', {'form': form})
 
 
+@login_required
 def user_details(request, user_id):
     user = custom_user.objects.get(id=user_id)
-    users_tweets = tweet_model.objects.filter(author=user)
-    return render(request, 'user_details.html', {'user':user, 'tweets':users_tweets})
+    users_tweets = tweet_model.objects.all()
+    followers = custom_user.objects.filter(follower=user).values('follower').count()
+    return render(request, 'user_details.html', {'user':user, 'tweets':users_tweets, 'followers':followers})
 
 
+@login_required
 def profile_view(request):
-    my_tweets = tweet_model.objects.filter(author = request.user)
+    my_tweets = tweet_model.objects.all()
     followers = custom_user.objects.filter(follower=request.user).values('follower').count()
     return render(request, 'profile.html', {'tweets':my_tweets, 'followers':followers})
 
 
+@login_required
 def follow_view(request, user_id):
     user_to_follow = custom_user.objects.filter(id=user_id).first()
     request.user.follower.add(user_to_follow)
@@ -43,6 +47,7 @@ def follow_view(request, user_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
 
+@login_required
 def unfollow_view(request, user_id):
     user_to_unfollow = custom_user.objects.filter(id=user_id).first()
     request.user.follower.remove(user_to_unfollow)

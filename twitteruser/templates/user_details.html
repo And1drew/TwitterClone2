@@ -7,19 +7,36 @@
 </head>
 <body>
     <h2>this is {{user.displayname}}'s page</h2>
-
+    <span>{{user}} has {{followers}} followers</span>
+    <br>
+    <span>{{user}} is following {{user.follower.count}}</span>
+    <br>
     {% if request.user.displayname == user.displayname %}
         <span>this is your public profile view</span>
 
     {% elif user in request.user.follower.all %}
-    <span>unfollow <button><a href="/unfollow/{{user.id}}/">{{user.displayname}}</a></button></span>
+        <span>unfollow <button><a href="/unfollow/{{user.id}}/">{{user.displayname}}</a></button></span>
+
     {% else %}
-    <span>follow <button><a href="/follow/{{user.id}}/">{{user.displayname}}</a></button></span>
+        <span>follow <button><a href="/follow/{{user.id}}/">{{user.displayname}}</a></button></span>
     {% endif %}
+
     <ul>
-        <h3>{{user.displayname}}'s tweets</h3>
+        <h3>{{user}}'s twitter feed</h3>
         {% for tweet in tweets %}
-            <li>{{tweet.text}}</li>
+            {% if tweet.author in user.follower.all or tweet.author == user %}
+
+            <li style="border: 2px solid black; width: 22%;">
+                <p>
+                    {{tweet.text}}
+                </p>
+                <p>
+                posted by: <a href="/user/{{tweet.author.id}}/">{{tweet.author}}</a>
+                at: <a href="/tweet/{{tweet.id}}/">{{tweet.date}}</a>
+                </p>
+            </li>
+
+            {% endif %}
         {% endfor %}
     </ul>
     <span>go <a href="/">home</a></span>

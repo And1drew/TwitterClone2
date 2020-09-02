@@ -12,11 +12,21 @@
     <span>you are following {{request.user.follower.count}}</span>
     <br>
     <span>you have {{followers}} followers</span>
-    {{request.user.follower}}
     <ul>
-        <h3>your tweets</h3>
+        <h3>your twitter feed</h3>
+        <p>this are your tweets and your followers tweets</p>
         {% for tweet in tweets %}
-            <li>{{tweet.text}}</li>
+            {% if tweet.author in request.user.follower.all or tweet.author == request.user %}
+            <li style="border: 2px solid black; width: 22%;">
+                <p>
+                    {{tweet.text}}
+                </p>
+                <p>
+                posted by: <a href="/user/{{tweet.author.id}}/">{{tweet.author}}</a>
+                at: <a href="/tweet/{{tweet.id}}/">{{tweet.date}}</a>
+                </p>
+            </li>
+            {% endif %}
         {% endfor %}
     </ul>
     <span>go <a href="/">home</a></span>
