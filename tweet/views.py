@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from twitteruser.models import custom_user
 from tweet.models import tweet_model
 from tweet.forms import tweet_form
+import re
 # Create your views here.
 
 @login_required
@@ -17,9 +18,19 @@ def new_tweet(request):
                 text = form.get('text'),
                 author = request.user
             )
+            parse_tweet(new_tweet.text)
             return HttpResponseRedirect('/')
     form = tweet_form
     return render(request, 'tweet_form.html', {'form': form})
+
+
+def parse_tweet(text):
+    """helper function for pasrsing tweets and creating notifications"""
+    username_match = re.search(r"@([^\s]+)", text)
+    if username_match:
+        username = username_match.group(1)
+        print("regex match is ===> "+ username)
+            
 
 
 @login_required

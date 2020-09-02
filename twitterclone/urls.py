@@ -19,6 +19,7 @@ from django.urls import path
 from twitteruser.urls import urlpatterns as twitteruserURLS
 from authentication.urls import urlpatterns as authenticationURLS
 from tweet.urls import urlpatterns as tweetURLS 
+from notification.urls import urlpatterns as notificationURLS
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,3 +28,4 @@ urlpatterns = [
 urlpatterns += twitteruserURLS
 urlpatterns += authenticationURLS
 urlpatterns += tweetURLS
+urlpatterns += notificationURLS
