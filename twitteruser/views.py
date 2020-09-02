@@ -9,7 +9,7 @@ from twitteruser.forms import signup_form
 # Create your views here.
 @login_required
 def index(request):
-    tweets = tweet_model.objects.all()
+    tweets = tweet_model.objects.order_by('-date')
     return render(request, 'index.html',{'tweets':tweets})
 
 
@@ -22,3 +22,29 @@ def signup_view(request):
             return HttpResponseRedirect('/')
     form = signup_form()
     return render(request, 'signup_form.html', {'form': form})
+
+
+def user_details(request, user_id):
+    user = custom_user.objects.get(id=user_id)
+    users_tweets = tweet_model.objects.filter(author=user)
+    return render(request, 'user_details.html', {'user':user, 'tweets':users_tweets})
+
+
+def profile_view(request):
+    my_tweets = tweet_model.objects.filter(author = request.user)
+    followers = custom_user.objects.filter(follower=request.user).values('follower').count()
+    return render(request, 'profile.html', {'tweets':my_tweets, 'followers':followers})
+
+
+def follow_view(request, user_id):
+    user_to_follow = custom_user.objects.filter(id=user_id).first()
+    request.user.follower.add(user_to_follow)
+    request.user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+
+
+def unfollow_view(request, user_id):
+    user_to_unfollow = custom_user.objects.filter(id=user_id).first()
+    request.user.follower.remove(user_to_unfollow)
+    request.user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
