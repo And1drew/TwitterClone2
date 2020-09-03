@@ -28,7 +28,7 @@ def signup_view(request):
     return render(request, 'signup_form.html', {'form': form})
 
 
-@login_required
+
 def user_details(request, user_id):
     user = TwitterUser.objects.get(id=user_id)
     users_tweets = Tweet.objects.all()
@@ -38,10 +38,11 @@ def user_details(request, user_id):
 
 @login_required
 def profile_view(request):
-    my_tweets = Tweet.objects.all()
+    tweets = Tweet.objects.all()
+    my_tweets = Tweet.objects.filter(author=request.user).count()
     followers = TwitterUser.objects.filter(follower=request.user).values('follower').count()
     notifications = Notification.objects.filter(alert_for=request.user)
-    return render(request, 'profile.html', {'tweets':my_tweets, 'followers':followers, 'notifications':notifications})
+    return render(request, 'profile.html', {'tweets':tweets, 'followers':followers, 'notifications':notifications, 'mytweets':my_tweets})
 
 
 @login_required

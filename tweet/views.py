@@ -41,10 +41,9 @@ def parse_tweet(text):
     if username_match:
         username = username_match.group(1)
         return username
-            
 
 
-@login_required
+
 def tweet_details(request, tweet_id):
     tweet = Tweet.objects.get(id=tweet_id)
     return render(request, 'tweet_details.html', {'tweet':tweet})
