@@ -1,5 +1,4 @@
 from django.shortcuts import render
-# from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from twitteruser.models import TwitterUser
@@ -41,7 +40,7 @@ def user_details(request, user_id):
 def profile_view(request):
     my_tweets = Tweet.objects.all()
     followers = TwitterUser.objects.filter(follower=request.user).values('follower').count()
-    notifications = Notification.objects.all()
+    notifications = Notification.objects.filter(alert_for=request.user)
     return render(request, 'profile.html', {'tweets':my_tweets, 'followers':followers, 'notifications':notifications})
 
 

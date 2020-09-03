@@ -7,10 +7,12 @@
 </head>
 <body>
     <h2>Notifications page</h2>
+    {{request.user}}
         {% for alert in notifications %}
         <ul>
             {{alert.message}}
-            
+            <br>
+            {{alert.alert_for}}
         </ul>
             {% endfor %}
     <span>go <a href="/profile/">back to profile</a></span>

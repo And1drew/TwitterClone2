@@ -5,5 +5,5 @@ from notification.models import Notification
 # Create your views here.
 
 def notification_view(request):
-    notifications = Notification.objects.all()
+    notifications = Notification.objects.filter(alert_for=request.user.id)
     return render(request, 'notifications.html',{'notifications': notifications})
