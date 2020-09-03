@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from twitteruser.models import custom_user
 from tweet.models import tweet_model
+from notification.models import Notification
 from twitteruser.forms import signup_form
 
 # Create your views here.
@@ -36,7 +37,8 @@ def user_details(request, user_id):
 def profile_view(request):
     my_tweets = tweet_model.objects.all()
     followers = custom_user.objects.filter(follower=request.user).values('follower').count()
-    return render(request, 'profile.html', {'tweets':my_tweets, 'followers':followers})
+    notifications = Notification.objects.filter(alert_for=request.user.username)
+    return render(request, 'profile.html', {'tweets':my_tweets, 'followers':followers, 'notifications':notifications})
 
 
 @login_required
