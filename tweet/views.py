@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from twitteruser.models import custom_user
 from tweet.models import tweet_model
+from notification.models import Notification
 from tweet.forms import tweet_form
 import re
 # Create your views here.
@@ -18,7 +19,16 @@ def new_tweet(request):
                 text = form.get('text'),
                 author = request.user
             )
-            parse_tweet(new_tweet.text)
+            alerted_username = parse_tweet(new_tweet.text)
+            print(alerted_username)
+            if custom_user.objects.get(username=alerted_username):
+                print('username found @...' + alerted_username)
+                # alerted_user = custom_user.objects.filter(username = alerted_username)
+                Notification.objects.create(
+                    message = new_tweet.text,
+                    alert_for = custom_user.objects.get(username=alerted_username),
+                    created_by = request.user
+                )
             return HttpResponseRedirect('/')
     form = tweet_form
     return render(request, 'tweet_form.html', {'form': form})
@@ -29,7 +39,7 @@ def parse_tweet(text):
     username_match = re.search(r"@([^\s]+)", text)
     if username_match:
         username = username_match.group(1)
-        print("regex match is ===> "+ username)
+        return username
             
 
 
