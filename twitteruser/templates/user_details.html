@@ -7,6 +7,8 @@
 </head>
 <body>
     <h2>this is {{user.displayname}}'s page</h2>
+    <span>@<a>{{user.username}}</a></span>
+    <br>
     <span>{{user}} has {{followers}} followers</span>
     <br>
     <span>{{user}} is following {{user.follower.count}}</span>
@@ -20,7 +22,9 @@
     {% else %}
         <span>follow <button><a href="/follow/{{user.id}}/">{{user.displayname}}</a></button></span>
     {% endif %}
-
+    <br>
+    <span>go <a href="/">home</a></span>
+    <br>
     <ul>
         <h3>{{user}}'s twitter feed</h3>
         {% for tweet in tweets %}
@@ -39,6 +43,5 @@
             {% endif %}
         {% endfor %}
     </ul>
-    <span>go <a href="/">home</a></span>
 </body>
 </html>

@@ -9,6 +9,7 @@
     <h1>Welcome to Twitter {{request.user.displayname}}</h1>
     <span style="border: 2px solid black; padding: 10px;">make a new tweet <a href="/tweet/">here</a></span>
     <span style="border: 2px solid black; padding: 10px;">view your profile <a href="/profile/">here</a></span>
+    <span style="border: 2px solid black; padding: 10px;">Logout <a href="/logout/">here</a></span>
     <br>
     <h2 style="margin-top: 40px;">The Global Twitter Feed</h2>
     <p>this is a global feed where you can find new twitter users</p>
@@ -22,9 +23,7 @@
             at: <a href="/tweet/{{tweet.id}}/">{{tweet.date}}</a></p>
         </li>
         {% endfor %}
-    </ul>
-    <span>
-        Logout <a href="/logout/">here</a>
-    </span>
+        <span>end of feed</span>
+    </ul
 </body>
 </html>

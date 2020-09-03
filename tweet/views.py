@@ -21,15 +21,16 @@ def new_tweet(request):
             )
             alerted_username = parse_tweet(new_tweet.text)
             print(alerted_username)
-            if custom_user.objects.get(username=alerted_username):
-                print('username found @...' + alerted_username)
-                # alerted_user = custom_user.objects.filter(username = alerted_username)
-                Notification.objects.create(
-                    message = new_tweet.text,
-                    alert_for = custom_user.objects.get(username=alerted_username),
-                    created_by = request.user
-                )
-            return HttpResponseRedirect('/')
+            if alerted_username:
+                if custom_user.objects.get(username=alerted_username):
+                    Notification.objects.create(
+                        message = new_tweet.text,
+                        alert_for = custom_user.objects.get(username=alerted_username),
+                        created_by = request.user
+                    )
+                    return HttpResponseRedirect('/')
+            else:
+                return HttpResponseRedirect('/')
     form = tweet_form
     return render(request, 'tweet_form.html', {'form': form})
 

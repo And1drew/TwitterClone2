@@ -14,6 +14,9 @@
     <span>you are following {{request.user.follower.count}}</span>
     <br>
     <span>you have {{followers}} followers</span>
+    <br>
+    <span>go <a href="/">home</a></span>
+    <br>
     <ul>
         <h3>your twitter feed</h3>
         <p>this are your tweets and your followers tweets</p>
@@ -31,6 +34,5 @@
             {% endif %}
         {% endfor %}
     </ul>
-    <span>go <a href="/">home</a></span>
 </body>
 </html>
