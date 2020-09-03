@@ -4,7 +4,7 @@ from twitterclone import settings
 # Create your models here.
 
 
-class custom_user(AbstractUser):
+class TwitterUser(AbstractUser):
     displayname = models.CharField(max_length = 60) 
     email = models.CharField(max_length = 120)
     follower = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)

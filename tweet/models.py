@@ -1,13 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from datetime import datetime
-from twitteruser.models import custom_user
+from twitteruser.models import TwitterUser
 # Create your models here.
 
 
-class tweet_model(models.Model):
+class Tweet(models.Model):
     text = models.CharField(max_length=140)
-    author = models.ForeignKey(custom_user, on_delete=models.CASCADE)
+    author = models.ForeignKey(TwitterUser, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
     def __unicode__(self):
         return self.text

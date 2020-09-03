@@ -1,7 +1,7 @@
-from twitteruser.models import custom_user
+from twitteruser.models import TwitterUser
 from django import forms
 
 class signup_form(forms.ModelForm):
     class Meta:
-        model = custom_user
+        model = TwitterUser
         fields =['username', 'password', 'displayname', 'email']
