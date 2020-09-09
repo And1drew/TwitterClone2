@@ -20,16 +20,19 @@ def new_tweet(request):
                 author = request.user
             )
             alerted_username = parse_tweet(new_tweet.text)
-            print(alerted_username)
             if alerted_username:
-                if TwitterUser.objects.get(username=alerted_username):
+                if TwitterUser.objects.filter(username=alerted_username).exists():
                     Notification.objects.create(
                         message = new_tweet.text,
                         alert_for = TwitterUser.objects.get(username=alerted_username),
                         created_by = request.user
                     )
                     return HttpResponseRedirect('/')
+                else:
+                    print('user not found')
+                    return HttpResponseRedirect('/')
             else:
+                print('user not found')
                 return HttpResponseRedirect('/')
     form = tweet_form
     return render(request, 'tweet_form.html', {'form': form})
@@ -37,7 +40,7 @@ def new_tweet(request):
 
 def parse_tweet(text):
     """helper function for pasrsing tweets and creating notifications"""
-    username_match = re.search(r"@([^\s]+)", text)
+    username_match = re.search(r"@(\b\w+)\s", text)
     if username_match:
         username = username_match.group(1)
         return username
