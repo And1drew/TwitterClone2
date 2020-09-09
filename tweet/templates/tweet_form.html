@@ -6,6 +6,12 @@
     <title>TwitterClone | Tweet</title>
 </head>
 <body>
+    <span>rules for notifiying someone.</span>
+    <ul>
+        <li>be friendly to the backend</li>
+        <li>use the "@" symbole followed by the username. example: @andrew hi</li>
+        <li>dont use the '@' before the person you want to notify or it won't create a notification <br> example: "h@h@ha typ!ng w!th $ymb0le$ is fun @andrew" <== this is not being friendly</li>
+    </ul>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p}}
